@@ -13,6 +13,7 @@
 
 	//回転と移動用の変数（とりあえずのものなので動きがわかったら使わなくてOKです）
 	var c = 0;
+	var clst = [];
 	//new-end
 
 	var frame, walls, axes;
@@ -33,20 +34,30 @@
 		controls.enableKeys = true;
 
 		//newstart
+		//smokeGeo = new THREE.PlaneGeometry(1, 1);
+		smokeGeo = new THREE.SphereGeometry(1);
+		smokeMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, map: smokeTexture, transparent: true, opacity: 0.8 });
+		smokeMaterial2 = new THREE.MeshLambertMaterial({ color: 0xff0000, map: smokeTexture, transparent: true, opacity: 0.8 });
+		smokeParticles = [];
 		//sphereを50個生成		
 		for (var i = 0; i < 50; i++) {
+			if (i % 5 == 0) {
+				var sphere = new THREE.Mesh(smokeGeo, smokeMaterial2);
+			}
+			else { var sphere = new THREE.Mesh(smokeGeo, smokeMaterial); }
 			//sphereの半径を1にして、色を赤に
-			//			var sphere = new THREE.Mesh(new THREE.SphereGeometry(1), new THREE.MeshBasicMaterial({transparent: true, map: smokeTexture, opacity: 0.8, color: 0xff0000}));
+			//			var sphere = new THREE.Mesh(new THREE.SphereGeometry(1), new THREE.MeshBasicMaterial({ transparent: true, map: smokeTexture, opacity: 0.8, color: 0xff0000 }));
 			//sphereの半径が小さいバージョン（0.1）
-			var sphere = new THREE.Mesh(new THREE.SphereGeometry(0.1), new THREE.MeshBasicMaterial({ transparent: true, map: smokeTexture, opacity: 0.8, color: 0xff0000 }));
-			smokeGroup.add(sphere);
-			scene.add(smokeGroup);
+			//			var sphere = new THREE.Mesh(new THREE.SphereGeometry(0.1), new THREE.MeshBasicMaterial({ transparent: true, map: smokeTexture, opacity: 0.8, color: 0xff0000 }));
 			//sphereの初期の回転角度を持たせておく
 			sphere.ry = Math.random() * Math.PI * 2;
 			//y軸回転をその角度にする
 			sphere.rotation.set(0, sphere.ry, 0);
 			//座標の範囲を-0.5〜0.5に狭める
 			sphere.position.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5);
+			smokeGroup.add(sphere);
+			scene.add(smokeGroup);
+			smokeParticles.push(sphere);
 		}
 
 		console.log(smokeGroup);
@@ -59,6 +70,13 @@
 		scene.add(frame);
 
 		//update()を実行して、アニメーションさせる
+		var cnt = smokeParticles.length;
+		while (cnt--) {
+			a = Math.random() - 0.5;
+			clst.push(a);
+		}
+		console.log(clst);
+
 		update();
 
 	});
@@ -83,14 +101,30 @@
 	function update() {
 		//newstart
 		//smokeGroupの中のspohereを一つ一つy軸中心に基準の角度にc*0.03度（ラジアン）足して回転させる
-		for (var i = 0; i < smokeGroup.children.length; i++) {
-			var child = smokeGroup.children[i];
-			child.rotation.set(0, child.ry + c * 3, 0);
+		//		for (var i = 0; i < smokeGroup.children.length; i++) {
+		//			var child = smokeGroup.children[i];
+		//			child.rotation.set(0, child.ry + c * 3, 0);
+		//		}
+		var sp = smokeParticles.length;
+		//rei1
+		//c = 0.005;
+		//while (sp--) {
+		//	smokeParticles[sp].rotation.x += c;
+		//	smokeParticles[sp].rotation.y += c;
+		//	smokeParticles[sp].rotation.z += c;
+		//	//	smokeParticles[sp].position.x += (Math.random() - 0.5) * c;
+		//}
+		//rei2
+		while (sp--) {
+			//			smokeParticles[sp].rotation.x += 0.01 * clst[sp];
+			//			smokeParticles[sp].rotation.y += 0.01 * clst[sp];
+			smokeParticles[sp].rotation.z += 0.01 * clst[sp];
+			//	smokeParticles[sp].position.x += (Math.random() - 0.5) * c;
 		}
+
 		//smokeGroupの座標をcの分だけ上昇させる
-		smokeGroup.position.set(0, c, 0);
+		//		smokeGroup.position.set(0, c, 0);
 		//一定間隔（だいたい60fpsぐらい）でcに0.01足していく
-		c = 2;
 		//newend
 
 		controls.update();
