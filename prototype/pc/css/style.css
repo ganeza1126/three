@@ -1,0 +1,11 @@
+@charset "utf-8";
+
+body {
+	background: #000000;
+	-webkit-text-size-adjust: 100%;
+}
+
+#main {
+	width: 100%;
+	overflow: hidden;
+}
