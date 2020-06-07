@@ -8,7 +8,8 @@
 
 	//new-start
 	var loader = new THREE.TextureLoader();
-	var smokeTexture = loader.load('https://s3-us-west-2.amazonaws.com/s.cdpn.io/95637/Smoke-Element.png');
+	//var smokeTexture = loader.load('https://s3-us-west-2.amazonaws.com/s.cdpn.io/95637/Smoke-Element.png');
+	var smokeTexture = loader.load('../Smoke-Element.png');
 	var smokeGroup = new THREE.Group();
 
 	//回転と移動用の変数（とりあえずのものなので動きがわかったら使わなくてOKです）
@@ -38,13 +39,35 @@
 		smokeGeo = new THREE.SphereGeometry(1);
 		smokeMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, map: smokeTexture, transparent: true, opacity: 0.8 });
 		smokeMaterial2 = new THREE.MeshLambertMaterial({ color: 0xff0000, map: smokeTexture, transparent: true, opacity: 0.8 });
+		smokeMaterial3 = new THREE.MeshBasicMaterial({ color: 0x00ff00, map: smokeTexture, transparent: true, opacity: 0.8 });
+		smokeMaterial4 = new THREE.MeshBasicMaterial({ color: 0xffff00, map: smokeTexture, transparent: true, opacity: 0.8 });
+		smokeMaterial5 = new THREE.MeshBasicMaterial({ color: 0x0000ff, map: smokeTexture, transparent: true, opacity: 0.8 });
 		smokeParticles = [];
 		//sphereを50個生成		
 		for (var i = 0; i < 50; i++) {
-			if (i % 5 == 0) {
-				var sphere = new THREE.Mesh(smokeGeo, smokeMaterial2);
+			smokeMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, map: smokeTexture, transparent: true, opacity: 0.8 });
+
+			switch (i % 5) {
+				case 0:
+					var sphere = new THREE.Mesh(smokeGeo, smokeMaterial);
+					break;
+				case 1:
+					var sphere = new THREE.Mesh(smokeGeo, smokeMaterial5);
+					break;
+				case 2:
+					var sphere = new THREE.Mesh(smokeGeo, smokeMaterial2);
+					break;
+				case 3:
+					var sphere = new THREE.Mesh(smokeGeo, smokeMaterial3);
+					break;
+				case 4:
+					var sphere = new THREE.Mesh(smokeGeo, smokeMaterial4);
+					break;
 			}
-			else { var sphere = new THREE.Mesh(smokeGeo, smokeMaterial); }
+			//			if (i % 5 == 0) {
+			//				var sphere = new THREE.Mesh(smokeGeo, smokeMaterial);
+			//			}
+			//			else { var sphere = new THREE.Mesh(smokeGeo, smokeMaterial); }
 			//sphereの半径を1にして、色を赤に
 			//			var sphere = new THREE.Mesh(new THREE.SphereGeometry(1), new THREE.MeshBasicMaterial({ transparent: true, map: smokeTexture, opacity: 0.8, color: 0xff0000 }));
 			//sphereの半径が小さいバージョン（0.1）
@@ -106,19 +129,19 @@
 		//			child.rotation.set(0, child.ry + c * 3, 0);
 		//		}
 		var sp = smokeParticles.length;
-		//rei1
-		//c = 0.005;
-		//while (sp--) {
-		//	smokeParticles[sp].rotation.x += c;
-		//	smokeParticles[sp].rotation.y += c;
-		//	smokeParticles[sp].rotation.z += c;
-		//	//	smokeParticles[sp].position.x += (Math.random() - 0.5) * c;
-		//}
+		//		//rei1
+		//		c = 0.001;
+		//		while (sp--) {
+		//			smokeParticles[sp].rotation.x += c;
+		//			smokeParticles[sp].rotation.y += c;
+		//			smokeParticles[sp].rotation.z += c;
+		//			//	smokeParticles[sp].position.x += (Math.random() - 0.5) * c;
+		//		}
 		//rei2
 		while (sp--) {
-			//			smokeParticles[sp].rotation.x += 0.01 * clst[sp];
-			//			smokeParticles[sp].rotation.y += 0.01 * clst[sp];
-			smokeParticles[sp].rotation.z += 0.01 * clst[sp];
+			smokeParticles[sp].rotation.x += 0.0051 * clst[sp];
+			smokeParticles[sp].rotation.y += 0.0051 * clst[sp];
+			smokeParticles[sp].rotation.z += 0.0051 * clst[sp];
 			//	smokeParticles[sp].position.x += (Math.random() - 0.5) * c;
 		}
 
