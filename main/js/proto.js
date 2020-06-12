@@ -16,10 +16,10 @@
 	//const stats = new Stats();//fps表示
 
 	//bot関連
-	const bot_num = 10;
+	const bot_num = 4;
 	var bot = [];//bot_numの数の格納
 	var bot_pos = [];//ボットの位置を格納
-	const bot_speed = 0.01;
+	const bot_speed = 0.0;
 	const bot_rad = 2;//ボットの半径
 	var bot_direction = [];//ボットの進行方向？森田さんのBotMov関数
 	const bot_directionchange_freq = 150;//なんかの周波数森田さんのBotMov関数
@@ -30,7 +30,7 @@
 	const smoke_opacity = 0.05;//煙の透明度
 	const smoke_size = 0.8;//球に対する煙一個のサイズ
 	const smokeTexture = loader.load('https://s3-us-west-2.amazonaws.com/s.cdpn.io/95637/Smoke-Element.png');//煙の画像
-	const color_speed = 0.01;//色が変わる速さ
+	var color_speed = 1;//色が変わる速さ
 
 
 	MW.install(THREE);
@@ -85,7 +85,13 @@
 		MakeBot(query);
 		//bot作成
 		for (var i = 0; i < bot_num - 1; i++) {
-			var basecolor = randcolor();
+			var basecolor;
+			switch (i) {
+				case 0: basecolor = 0xff0000; break;
+				case 1: basecolor = 0x00ff00; break;
+				case 2: basecolor = 0x0000ff; break;
+				default: basecolor = randcolor();
+			}
 			MakeBot(basecolor);
 		}
 
@@ -233,9 +239,15 @@
 			BotMov(botid);
 			bot_pos[botid] = [bot[botid].position.x, bot[botid].position.z];//ボットの平面の位置を代入
 		}
+		bot_pos[0] = [playerController.center.x, playerController.center.z];
 		//SmokeMov(me);
 
-		SwapSmoke();
+		//1
+		//color_speed = 1; SwapSmoke2();
+		//2
+		//color_speed = 0.01; SwapSmoke2();
+		////3
+		color_speed = 1; SwapSmoke3();
 		// botmov用カウンター更新
 		if (cnt == bot_directionchange_freq) {
 			cnt = 0;
@@ -258,7 +270,7 @@
 
 
 	//煙の色交換
-	function SwapSmoke() {
+	function SwapSmoke1() {
 		var i = bot_num;
 		while (i--) {
 			var j = i;
@@ -270,6 +282,37 @@
 					var tmp = bot[i].children[colorid].material.color;
 					bot[i].children[colorid].material.color = bot[j].children[colorid].material.color;
 					bot[j].children[colorid].material.color = tmp;
+				}
+			}
+		}
+	}
+	//煙の色交換ver2
+	function SwapSmoke2() {
+		var i = bot_num;
+		while (i--) {
+			var j = i;
+			while (j--) {
+				var x = bot_pos[i];
+				var y = bot_pos[j];
+				if (Math.pow(x[0] - y[0], 2) + Math.pow(x[1] - y[1], 2) <= bot_rad * bot_rad) {
+					var ci = bot[i].children[0].material.color.clone();
+					var cj = bot[j].children[0].material.color.clone();
+					var ci2 = bot[i].children[0].material.color.clone();
+					var cj2 = bot[j].children[0].material.color.clone();
+					var tmpi = ci2.add(cj.multiplyScalar(color_speed));
+					var tmpj = cj2.add(ci.multiplyScalar(color_speed));
+					var colorid = smoke_num;
+					tmpi.r = Math.min(tmpi.r, 1);
+					tmpi.g = Math.min(tmpi.g, 1);
+					tmpi.b = Math.min(tmpi.b, 1);
+					tmpj.r = Math.min(tmpj.r, 1);
+					tmpj.g = Math.min(tmpj.g, 1);
+					tmpj.b = Math.min(tmpj.b, 1);
+					console.log(tmpj, tmpi);
+					while (colorid--) {
+						bot[i].children[colorid].material.color = tmpi;
+						bot[j].children[colorid].material.color = tmpj;
+					}
 				}
 			}
 		}
@@ -290,11 +333,16 @@
 					var tmpi = ci2.add(cj.multiplyScalar(color_speed));
 					var tmpj = cj2.add(ci.multiplyScalar(color_speed));
 					var colorid = smoke_num;
-					console.log(tmpi, tmpj);
-					while (colorid--) {
-						bot[i].children[colorid].material.color = tmpi;
-						bot[j].children[colorid].material.color = tmpj;
-					}
+					tmpi.r = Math.min(tmpi.r, 1);
+					tmpi.g = Math.min(tmpi.g, 1);
+					tmpi.b = Math.min(tmpi.b, 1);
+					tmpj.r = Math.min(tmpj.r, 1);
+					tmpj.g = Math.min(tmpj.g, 1);
+					tmpj.b = Math.min(tmpj.b, 1);
+					console.log(tmpj, tmpi);
+					var colorid = Math.floor(Math.random() * smoke_num);
+					bot[i].children[colorid].material.color = tmpi;
+					bot[j].children[colorid].material.color = tmpj;
 				}
 			}
 		}
