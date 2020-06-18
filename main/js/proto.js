@@ -19,19 +19,20 @@
 	const bot_num = 8;
 	var bot = [];//bot_numの数の格納
 	var bot_pos = [];//ボットの位置を格納
-	//const bot_speed = 0.05;
-	const bot_speed = 0.00;
+	const bot_speed = 0.08;
 	const bot_rad = 2;//ボットの半径
-	var bot_direction = [];//ボットの進行方向？森田さんのBotMov関数
-	const bot_directionchange_freq = 150;//なんかの周波数森田さんのBotMov関数
-	var cnt = 0;//なんかのカウンタ，森田さんのBotMov関数
-	const bot_distance = 10;
-	const bot_prob = 0.05;
+	var bot_direction = [];//ボットの進行方向
+	const bot_directionchange_freq = 300;//ボットの動きの周波数
+	var cnt = 0;//ボットの動きのカウンタ
+	const bot_distance = 8;
+	const bot_prob = 0.05;//[0,1)
+	var bot_random = [];//乱数を格納
+	const bot_stop_prob = 0.2; //ボットが立ち止まる確率
+	var bot_speed_onoff = [];
+
 	//smoke関連
 	const smoke_num = 200;//各ボットの煙の数
 	const smoke_speed = 0.01;//煙のゆらぎ？の速度
-	//const smoke_speed = 0.005;//煙のゆらぎ？の速度
-	//const smoke_opacity = 0.05;//煙の透明度
 	const smoke_opacity = 0.5;//煙の透明度
 	const smoke_size = 0.8;//球に対する煙一個のサイズ
 	var color_speed = 1;//色が変わる速さ
@@ -254,7 +255,7 @@
 			if (smoke_cnt == 0) {
 				SmokeMov(bot[botid]);
 			}
-			BotMov(botid);
+			BotMov(botid, cnt);
 			bot_pos[botid] = [bot[botid].position.x, bot[botid].position.z];//ボットの平面の位置を代入
 		}
 		bot_pos[0] = [playerController.center.x, playerController.center.z];
@@ -453,32 +454,49 @@
 
 
 	//森田さんの関数
-	function BotMov(i) {
-		if (i == 0) return 0;
-		//add
+	var botid = bot_num;
+	while (botid--) {
+		if (Math.random() < bot_stop_prob) {
+			bot_speed_onoff[botid] = 0;
+		} else {
+			bot_speed_onoff[botid] = 1;
+		}
+		bot_random[botid] = Math.random();
+	}
+
+	//乱数配列の更新
+	function BotRandom() {
+		var botid = bot_num;
+		while (botid--) {
+			if (Math.random() < bot_stop_prob) {
+				bot_speed_onoff[botid] = 0;
+			} else {
+				bot_speed_onoff[botid] = 1;
+			}
+			bot_random[botid] = Math.random();
+		}
+	}
+	function BotMov(i, cnt) {
+		if (i == 0) return 0;//自分のときスルー
+
+		// botとの距離が近いとbotが近づいてくる
 		var dist_x = playerController.center.x - bot[i].position.x;
 		var dist_z = playerController.center.z - bot[i].position.z;
 		// botを動かす
-		if (cnt == 0) {
-			if ((dist_x * dist_x + dist_z * dist_z < bot_distance * bot_distance) && (Math.random() < bot_prob)) {
-				var me_rad = Math.atan2(dist_z, dist_x);
-				bot_direction[i][1] = me_rad;
-			} else {
-				bot_direction[i][0] = bot_direction[i][1];
-				bot_direction[i][2] = 2 * (Math.PI) * (Math.random());
-				bot_direction[i][1] += (bot_direction[i][2] - bot_direction[i][0]) / bot_directionchange_freq;
+		if (cnt == i * Math.round(bot_directionchange_freq / bot_num) + Math.round((bot_random[i] - 0.5) * bot_directionchange_freq / bot_num)) { //適当なタイミングで
+			if (Math.random() < 0.6) { //向きを変える確率
+				BotRandom();
+				//アバター(me)との距離が近ければ近づく方向に向きを変える
+				if ((Math.sqrt(dist_x * dist_x + dist_z * dist_z) < bot_distance) && (Math.random() < bot_prob)) {
+					var me_rad = Math.atan2(dist_z, dist_x);
+					bot_direction[i][1] = me_rad;
+				} else { //近くないときはランダムな方向に向きを変える
+					bot_direction[i][1] = 2 * (Math.PI) * (bot_random[i]);
+				}
 			}
-		};
-		//add
-		/*
-		bot_direction[i][1] += (bot_direction[i][2] - bot_direction[i][0]) / bot_directionchange_freq;
-		if (cnt == 0) {
-			bot_direction[i][0] = bot_direction[i][1];
-			bot_direction[i][2] = 2 * (Math.PI) * (Math.random());
-		};
-		*/
-		bot[i].position.x += bot_speed * Math.cos(bot_direction[i][1]);
-		bot[i].position.z += bot_speed * Math.sin(bot_direction[i][1]);
+		}
+		bot[i].position.x += bot_speed_onoff[i] * bot_speed * Math.cos(bot_direction[i][1]);
+		bot[i].position.z += bot_speed_onoff[i] * bot_speed * Math.sin(bot_direction[i][1]);
 
 		// 壁に当たった時
 		if (Math.abs(bot[i].position.x) >= ground_x / 2.0) {
@@ -525,8 +543,7 @@
 
 		scene.add(smokeParticles);
 		bot.push(smokeParticles);
-		bot_direction.push([0, 0, Math.PI / 2]);
-		//add
+		bot_direction.push([Math.random(), Math.random(), Math.PI2 * Math.random()]);
 		sd = false;//smoke_directionに一回しか入れないために
 	}
 
