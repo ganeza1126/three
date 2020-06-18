@@ -16,22 +16,37 @@
 	//const stats = new Stats();//fps表示
 
 	//bot関連
-	const bot_num = 4;
+	const bot_num = 8;
 	var bot = [];//bot_numの数の格納
 	var bot_pos = [];//ボットの位置を格納
-	const bot_speed = 0.0;
+	//const bot_speed = 0.05;
+	const bot_speed = 0.00;
 	const bot_rad = 2;//ボットの半径
 	var bot_direction = [];//ボットの進行方向？森田さんのBotMov関数
 	const bot_directionchange_freq = 150;//なんかの周波数森田さんのBotMov関数
 	var cnt = 0;//なんかのカウンタ，森田さんのBotMov関数
+	const bot_distance = 10;
+	const bot_prob = 0.05;
 	//smoke関連
 	const smoke_num = 200;//各ボットの煙の数
-	const smoke_speed = 0.05;//煙のゆらぎ？の速度
-	const smoke_opacity = 0.05;//煙の透明度
+	const smoke_speed = 0.01;//煙のゆらぎ？の速度
+	//const smoke_speed = 0.005;//煙のゆらぎ？の速度
+	//const smoke_opacity = 0.05;//煙の透明度
+	const smoke_opacity = 0.5;//煙の透明度
 	const smoke_size = 0.8;//球に対する煙一個のサイズ
-	const smokeTexture = loader.load('https://s3-us-west-2.amazonaws.com/s.cdpn.io/95637/Smoke-Element.png');//煙の画像
 	var color_speed = 1;//色が変わる速さ
+	var smoke_direction = [];//煙の向き
+	var sd = true;
+	var smoke_cnt = 0;//煙が動く頻度のカウンタ
+	const smoke_freq = 2;
 
+	//var smokeTexture = loader.load('https://s3-us-west-2.amazonaws.com/s.cdpn.io/95637/Smoke-Element.png');//煙の画像
+	smokeTexture1 = loader.load('images/cloud1.png');
+	smokeTexture2 = loader.load('images/cloud2.png');
+	smokeTexture3 = loader.load('images/cloud3.png');
+	smokeTexture4 = loader.load('images/smoke1.png');
+	smokeTexture5 = loader.load('images/smoke2.png');
+	smokeTexture6 = loader.load('images/nebula1.png')
 
 	MW.install(THREE);
 
@@ -82,7 +97,8 @@
 
 		//stats.showPanel(0);//fps表示
 		//document.body.appendChild(stats.dom);//fps表示
-		MakeBot(query);
+		//MakeBot(query);
+		MakeBot(randcolor());
 		//bot作成
 		for (var i = 0; i < bot_num - 1; i++) {
 			var basecolor;
@@ -235,7 +251,9 @@
 
 		var botid = bot_num;
 		while (botid--) {
-			SmokeMov(bot[botid]);
+			if (smoke_cnt == 0) {
+				SmokeMov(bot[botid]);
+			}
 			BotMov(botid);
 			bot_pos[botid] = [bot[botid].position.x, bot[botid].position.z];//ボットの平面の位置を代入
 		}
@@ -243,16 +261,23 @@
 		//SmokeMov(me);
 
 		//1
-		//color_speed = 1; SwapSmoke2();
+		// color_speed = 1; SwapSmoke2();
 		//2
-		//color_speed = 0.01; SwapSmoke2();
-		////3
-		color_speed = 1; SwapSmoke3();
+		// color_speed = 0.01; SwapSmoke2();
+		//3
+		//color_speed = 1; SwapSmoke3();
+		//4
+		color_speed = 0.5; SwapSmoke4();
 		// botmov用カウンター更新
 		if (cnt == bot_directionchange_freq) {
 			cnt = 0;
 		} else {
 			cnt += 1;
+		}
+		if (smoke_cnt == smoke_freq) {
+			smoke_cnt = 0;
+		} else {
+			smoke_cnt++;
 		}
 
 		//stats.end();//fps表示
@@ -308,7 +333,7 @@
 					tmpj.r = Math.min(tmpj.r, 1);
 					tmpj.g = Math.min(tmpj.g, 1);
 					tmpj.b = Math.min(tmpj.b, 1);
-					console.log(tmpj, tmpi);
+					//console.log(tmpj, tmpi);
 					while (colorid--) {
 						bot[i].children[colorid].material.color = tmpi;
 						bot[j].children[colorid].material.color = tmpj;
@@ -317,7 +342,7 @@
 			}
 		}
 	}
-	//煙の色交換ver3
+	//煙の色交換ver3（必ず白に向かう）
 	function SwapSmoke3() {
 		var i = bot_num;
 		while (i--) {
@@ -339,7 +364,7 @@
 					tmpj.r = Math.min(tmpj.r, 1);
 					tmpj.g = Math.min(tmpj.g, 1);
 					tmpj.b = Math.min(tmpj.b, 1);
-					console.log(tmpj, tmpi);
+					//console.log(tmpj, tmpi);
 					var colorid = Math.floor(Math.random() * smoke_num);
 					bot[i].children[colorid].material.color = tmpi;
 					bot[j].children[colorid].material.color = tmpj;
@@ -348,9 +373,40 @@
 		}
 	}
 
+	//煙の色交換ver3（必ず白に向かう）
+	function SwapSmoke4() {
+		var i = bot_num;
+		while (i--) {
+			var j = i;
+			while (j--) {
+				var x = bot_pos[i];
+				var y = bot_pos[j];
+				if (Math.pow(x[0] - y[0], 2) + Math.pow(x[1] - y[1], 2) <= bot_rad * bot_rad) {
+					var ci = bot[i].children[0].material.color.clone();
+					var cj = bot[j].children[0].material.color.clone();
+					var ci2 = bot[i].children[0].material.color.clone();
+					var cj2 = bot[j].children[0].material.color.clone();
+					var pm = Math.floor(Math.random() * 5) - 1;
+					var tmpi = ci2.add(cj.multiplyScalar(pm * color_speed));
+					var tmpj = cj2.add(ci.multiplyScalar(pm * color_speed));
+					var colorid = smoke_num;
+					tmpi.r = Math.max(0, Math.min(tmpi.r, 1));
+					tmpi.g = Math.max(0, Math.min(tmpi.g, 1));
+					tmpi.b = Math.max(0, Math.min(tmpi.b, 1));
+					tmpj.r = Math.max(0, Math.min(tmpj.r, 1));
+					tmpj.g = Math.max(0, Math.min(tmpj.g, 1));
+					tmpj.b = Math.max(0, Math.min(tmpj.b, 1));
+					//console.log(tmpj, tmpi);
+					var colorid = Math.floor(Math.random() * smoke_num);
+					bot[i].children[colorid].material.color = tmpi;
+					bot[j].children[colorid].material.color = tmpj;
+				}
+			}
+		}
+	}
 
 	//煙を動かすver1
-	function SmokeMov(smokeParticles) {
+	function SmokeMov1(smokeParticles) {
 		var sp = smokeParticles.children.length;
 		while (sp--) {
 			var rdx = (Math.random() - 0.5) * smoke_speed * bot_rad;
@@ -369,16 +425,58 @@
 		}
 	}
 
+	//煙を動かすver2
+	function SmokeMov(smokeParticles) {
+		var sp = smokeParticles.children.length;
+		while (sp--) {
+			smoke_direction[sp][0] += smoke_speed * (Math.random() - 0.5) * Math.PI;
+			smoke_direction[sp][1] += smoke_speed * Math.random() * 2 * Math.PI;
+			var dz = smoke_direction[sp][0];
+			var dth = smoke_direction[sp][1];
+			var dr = smoke_speed * Math.random() * bot_rad;
+			//sphere.position.set(r * Math.sin(z) * Math.cos(th), r * Math.sin(z) * Math.sin(th), r * Math.cos(z))
+			rdx = dr * Math.sin(dz) * Math.cos(dth);
+			rdy = dr * Math.sin(dz) * Math.sin(dth);
+			rdz = dr * Math.cos(dz);
+			var pos = smokeParticles.children[sp].position;
+			pos.x += rdx;
+			pos.y += rdy;
+			pos.z += rdz;
+			var aaa = Math.pow(pos.x, 2) + Math.pow(pos.y, 2) + Math.pow(pos.z, 2);
+			if (aaa > bot_rad * bot_rad) {
+				pos.x -= rdx;
+				pos.y -= rdy;
+				pos.z -= rdz;
+			}
+		}
+	}
+
 
 	//森田さんの関数
 	function BotMov(i) {
-		// botを動かす
 		if (i == 0) return 0;
+		//add
+		var dist_x = playerController.center.x - bot[i].position.x;
+		var dist_z = playerController.center.z - bot[i].position.z;
+		// botを動かす
+		if (cnt == 0) {
+			if ((dist_x * dist_x + dist_z * dist_z < bot_distance * bot_distance) && (Math.random() < bot_prob)) {
+				var me_rad = Math.atan2(dist_z, dist_x);
+				bot_direction[i][1] = me_rad;
+			} else {
+				bot_direction[i][0] = bot_direction[i][1];
+				bot_direction[i][2] = 2 * (Math.PI) * (Math.random());
+				bot_direction[i][1] += (bot_direction[i][2] - bot_direction[i][0]) / bot_directionchange_freq;
+			}
+		};
+		//add
+		/*
 		bot_direction[i][1] += (bot_direction[i][2] - bot_direction[i][0]) / bot_directionchange_freq;
 		if (cnt == 0) {
 			bot_direction[i][0] = bot_direction[i][1];
 			bot_direction[i][2] = 2 * (Math.PI) * (Math.random());
 		};
+		*/
 		bot[i].position.x += bot_speed * Math.cos(bot_direction[i][1]);
 		bot[i].position.z += bot_speed * Math.sin(bot_direction[i][1]);
 
@@ -404,6 +502,7 @@
 		var smokeParticles = new THREE.Group();
 		for (var i = 0; i < smoke_num; i++) {
 			//単色
+			smoketexture(Math.floor(Math.random() * 100))
 			var smokeMaterial = new THREE.SpriteMaterial({ color: basecolor, map: smokeTexture, transparent: true, opacity: smoke_opacity });
 			////混色
 			//var smokeMaterial = new THREE.SpriteMaterial({ color: randcolor(), map: smokeTexture, transparent: true, opacity: 0.2 });
@@ -412,6 +511,11 @@
 			var z = (Math.random() - 0.5) * Math.PI;
 			var th = Math.random() * 2 * Math.PI;
 			var r = Math.random() * bot_rad;
+			//add
+			if (sd) {
+				smoke_direction[i] = [z, th, r];
+			}
+			//add
 			sphere.position.set(r * Math.sin(z) * Math.cos(th), r * Math.sin(z) * Math.sin(th), r * Math.cos(z))
 			smokeParticles.add(sphere);
 		}
@@ -422,6 +526,21 @@
 		scene.add(smokeParticles);
 		bot.push(smokeParticles);
 		bot_direction.push([0, 0, Math.PI / 2]);
+		//add
+		sd = false;//smoke_directionに一回しか入れないために
 	}
+
+	function smoketexture(num) {
+		num %= 6;
+		switch (num) {
+			case 0: smokeTexture = smokeTexture1; break;
+			case 1: smokeTexture = smokeTexture2; break;
+			case 2: smokeTexture = smokeTexture3; break;
+			case 3: smokeTexture = smokeTexture4; break;
+			case 4: smokeTexture = smokeTexture5; break;
+			case 5: smokeTexture = smokeTexture6; break;
+		}
+	}
+
 
 })();
