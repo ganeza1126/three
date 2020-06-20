@@ -2,9 +2,8 @@
 
 
 	var width, height, clock, scene, camera, renderer;
-	var light1, light2, ground, frame, object1, object2, object3, object4, object5, me;
-	var world, min, max, partition, octree,
-		playerRadius = 1, playerObjectHolder, playerController;
+	var light1, light2, ground, frame, object1, object2, object3, object4, object5;
+	var world, min, max, partition, octree, playerObjectHolder, playerController;
 	var keyInputControl;
 	var tpsCameraControl;
 	var ground_color = 0xfffff0;
@@ -20,7 +19,7 @@
 	var bot = [];//bot_numの数の格納
 	var bot_pos = [];//ボットの位置を格納
 	const bot_speed = 0.08;
-	const bot_rad = 2;//ボットの半径
+	const bot_rad = 1;//ボットの半径
 	var bot_direction = [];//ボットの進行方向
 	const bot_directionchange_freq = 300;//ボットの動きの周波数
 	var cnt = 0;//ボットの動きのカウンタ
@@ -32,14 +31,14 @@
 
 	//smoke関連
 	const smoke_num = 200;//各ボットの煙の数
-	const smoke_speed = 0.01;//煙のゆらぎ？の速度
-	const smoke_opacity = 0.5;//煙の透明度
+	const smoke_speed = 0.05;//煙のゆらぎ？の速度
+	const smoke_opacity = 0.3;//煙の透明度
 	const smoke_size = 0.8;//球に対する煙一個のサイズ
 	var color_speed = 1;//色が変わる速さ
 	var smoke_direction = [];//煙の向き
 	var sd = true;
 	var smoke_cnt = 0;//煙が動く頻度のカウンタ
-	const smoke_freq = 2;
+	const smoke_freq = 10;
 
 	//var smokeTexture = loader.load('https://s3-us-west-2.amazonaws.com/s.cdpn.io/95637/Smoke-Element.png');//煙の画像
 	smokeTexture1 = loader.load('images/cloud1.png');
@@ -98,8 +97,10 @@
 
 		//stats.showPanel(0);//fps表示
 		//document.body.appendChild(stats.dom);//fps表示
+
 		//MakeBot(query);
-		MakeBot(randcolor());
+		MakeBot(randcolor());//自分を作成
+
 		//bot作成
 		for (var i = 0; i < bot_num - 1; i++) {
 			var basecolor;
@@ -111,6 +112,15 @@
 			}
 			MakeBot(basecolor);
 		}
+
+		/*
+		var geometry = new THREE.SphereGeometry(bot_rad, 32, 32);
+		var material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+		var sphere = new THREE.Mesh(geometry, material);
+		sphere.position.y += bot_rad * 1;
+		scene.add(sphere);
+		*/
+
 
 
 		object1 = new THREE.Mesh(
@@ -253,7 +263,7 @@
 		var botid = bot_num;
 		while (botid--) {
 			if (smoke_cnt == 0) {
-				SmokeMov(bot[botid]);
+				SmokeMov2(botid);
 			}
 			BotMov(botid, cnt);
 			bot_pos[botid] = [bot[botid].position.x, bot[botid].position.z];//ボットの平面の位置を代入
@@ -382,7 +392,7 @@
 			while (j--) {
 				var x = bot_pos[i];
 				var y = bot_pos[j];
-				if (Math.pow(x[0] - y[0], 2) + Math.pow(x[1] - y[1], 2) <= bot_rad * bot_rad) {
+				if (Math.pow(x[0] - y[0], 2) + Math.pow(x[1] - y[1], 2) <= 4 * bot_rad * bot_rad) {
 					var ci = bot[i].children[0].material.color.clone();
 					var cj = bot[j].children[0].material.color.clone();
 					var ci2 = bot[i].children[0].material.color.clone();
@@ -427,11 +437,16 @@
 	}
 
 	//煙を動かすver2
-	function SmokeMov(smokeParticles) {
+	function SmokeMov2(botid) {
+		var smokeParticles = bot[botid]
 		var sp = smokeParticles.children.length;
 		while (sp--) {
-			smoke_direction[sp][0] += smoke_speed * (Math.random() - 0.5) * Math.PI;
-			smoke_direction[sp][1] += smoke_speed * Math.random() * 2 * Math.PI;
+			if (botid == 0) {
+				smoke_direction[sp][0] += smoke_speed * (Math.random() - 0.5) * Math.PI;
+				smoke_direction[sp][1] += smoke_speed * (Math.random() - 0.5) * 2 * Math.PI;
+				//				smoke_direction[sp][0] = Math.min(Math.max(smoke_direction[sp][0], 0), Math.PI);
+				//				smoke_direction[sp][1] = Math.min(Math.max(smoke_direction[sp][1], 0), 2 * Math.PI);
+			}
 			var dz = smoke_direction[sp][0];
 			var dth = smoke_direction[sp][1];
 			var dr = smoke_speed * Math.random() * bot_rad;
@@ -439,15 +454,18 @@
 			rdx = dr * Math.sin(dz) * Math.cos(dth);
 			rdy = dr * Math.sin(dz) * Math.sin(dth);
 			rdz = dr * Math.cos(dz);
+			if (botid == 0) {
+				console.log(rdx, rdy, rdz);
+			}
 			var pos = smokeParticles.children[sp].position;
 			pos.x += rdx;
 			pos.y += rdy;
 			pos.z += rdz;
 			var aaa = Math.pow(pos.x, 2) + Math.pow(pos.y, 2) + Math.pow(pos.z, 2);
 			if (aaa > bot_rad * bot_rad) {
-				pos.x -= rdx;
-				pos.y -= rdy;
-				pos.z -= rdz;
+				pos.x -= 1 * rdx;
+				pos.y -= 1 * rdy;
+				pos.z -= 1 * rdz;
 			}
 		}
 	}
@@ -525,8 +543,9 @@
 			////混色
 			//var smokeMaterial = new THREE.SpriteMaterial({ color: randcolor(), map: smokeTexture, transparent: true, opacity: 0.2 });
 			var sphere = new THREE.Sprite(smokeMaterial);
-			sphere.scale.set(bot_rad * smoke_size, bot_rad * smoke_size, bot_rad * smoke_size);
-			var z = (Math.random() - 0.5) * Math.PI;
+			sphere.scale.set(2 * bot_rad * smoke_size, 2 * bot_rad * smoke_size, 2 * bot_rad * smoke_size);
+			//var z = (Math.random() - 0.5) * Math.PI;
+			var z = Math.random() * Math.PI;
 			var th = Math.random() * 2 * Math.PI;
 			var r = Math.random() * bot_rad;
 			//add
