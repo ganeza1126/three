@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html kang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,
+  initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>emotional distance</title>
+  <!-- three.jsを読み込む -->
+  <!--script src="three.js"></script-->
+  <!-- jquery.jsを読み込む -->
+  <script src="js/jquery.js"></script>
+  <script defer src = "js/face-api.min.js"></script>
+  <script defer src="js/script.js"></script>
+  <script src="js/mouse.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+	
+   <!-- フォント情報を読み込む -->
+	<script>
+  (function(d) {
+    var config = {
+      kitId: 'qpr0nsj',
+      scriptTimeout: 3000,
+      async: true
+    },
+    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+  })(document);
+	</script>
+</head>
+<body>
+	<div id="wrapper">
+	<div id="bg"></div>
+	<!-- 追加した最初の画面 -->
+	<div id="zero">
+	<div class="border">
+	<div class="title">
+    emotional distance
+    </div>  
+	<p class="content">
+	  作品の楽しみ方<br>
+	  <span class="usePC">※この作品はPCでお楽しみください</span>
+    </p>
+	<img src="images/emo_skyblue.png" class="emoOne" alt="エモ_イラスト8">
+	<img src="images/emo_red.png" class="emoTwo" alt="エモ_イラスト1">
+	<img src="images/emo_purple.png" class="emoThree" alt="エモ_イラスト9">
+	<img src="images/emo_green.png" class="emoFour" alt="エモ_イラスト4">
+	<img src="images/emo_orange.png" class="emoFive" alt="エモ_イラスト3">
+	<img src="images/emo_pink.png" class="emoSix" alt="エモ_イラスト2">
+	<img src="images/emo_blue.png" class="emoSeven" alt="エモ_イラスト6">
+	 <p class="contentTwo">
+		この世界には<span class="boldText">“エモ”</span>という生き物がいます<br><br>
+		<span class="boldTextL">“エモ”は、感情から生まれた不思議な生き物です</span><br>
+		人間のように、走ったり喋ったりは出来ないけれど<br>感情の色を交換してやり取りをします<br><br>
+		これから入る世界では、あなたは<span class="boldText">“エモ”</span>の1つとなります<br>
+		最初は感情を1つしか知らない、生まれたての<span class="boldText">“エモ”</span><br>
+		他の<span class="boldText">“エモ”</span>と交流し、感情の色を交換して、あなたの<span class="boldText">“エモ”</span>を成長させましょう<br>
+		そうすることで、最後にはより広い世界に行けるはず<br><br>
+		<span class="boldTextL">それでは、まずあなたの感情に対応した自分だけの“エモ”を作ります</span>
+    </p>
+		<a href="#" class="start">作品に進む</a>
+	</div>
+	</div>
+	<!-- 最初の画面 -->
+	<div id="first">
+	<div class="border">
+	<div class="title">
+    emotional distance
+    </div> 
+	<p class="content">
+      注意事項
+    </p>
+	<p class="contentTwo">
+
+	これから、あなたの感情に合った<span class="boldText">“エモ”</span>を作ります<br><br>
+	<span class="boldTextL">あなたの顔の写真から感情を読み取って作る方法と<br>
+	写真を使わずに感情を選ぶ方法があります<br><br></span>
+	写真を使っても良いという方は、下の注意事項をよく読んでから<span class="boldText">「許可」</span>ボタンを押し<br>
+	次の画面で出てくるポップアップでカメラの許可をしてください<br>
+	写真を使いたくない方は，<span class="boldText">「不許可」</span>ボタンを押して進んでください<br>
+	</p>
+	<p class="contentThree">
+	<span class="boldText"><br>※必ずお読みください</span><br><br>
+	この作品において撮った写真は、<br>表情から感情を分析する目的のみに使用します<br>
+	写真は保存されず、第三者に渡ること、<br>他の目的で使用することはありません<br><br>
+	</p>
+		<a href="#" class="not">不許可</a>
+		<a href="#" class="next">許可</a>
+	</div>
+	</div>
+	<!-- 二番目の画面 -->
+	<div id="second">
+	<div class="border">
+	<div class="title">
+    emotional distance
+    </div>  
+		<div id="second-1">
+			<p class = "content">
+			顔画像を撮影します<br>
+			</p>
+			<img src="images/loading.gif" class="loading" alt="loading">
+			<p class = "description">
+				色と感情のカテゴリー<br>
+				<span class="redText">赤</span>：怒り<br>
+				<span class="pinkText">ピンク</span>：喜び<br>
+				<span class="orangeText">オレンジ</span>：驚き<br>
+				<span class="greenText">緑</span>：中立<br>
+				<span class="skyBlueText">水色</span>：悲しみ<br>
+				<span class="blueText">青</span>：嫌悪<br>
+				<span class="purpleText">紫</span>：恐れ
+			</p>
+			<a href="#" class="record">撮影</a>
+		</div>
+		<div id="second-2">
+			<p class = "content">
+			この画像を使用しますか？<br>
+			</p>
+			<p class = "description">
+				色と感情のカテゴリー<br>
+				<span class="redText">赤</span>：怒り<br>
+				<span class="pinkText">ピンク</span>：喜び<br>
+				<span class="orangeText">オレンジ</span>：驚き<br>
+				<span class="greenText">緑</span>：中立<br>
+				<span class="skyBlueText">水色</span>：悲しみ<br>
+				<span class="blueText">青</span>：嫌悪<br>
+				<span class="purpleText">紫</span>：恐れ
+			</p>
+			<p class = "descriptionTwo">
+				あなたの感情は<br>
+			</p>
+			<img src="images/エモ_イラスト8.png" class="yourEmo" alt="エモ_イラスト8">
+			<a href="#" class="retry">撮り直す</a>
+			<a href="#" class="use">使用</a><br>
+			<!-- パラメータ表示領域 -->
+			<p class="resultPercentage"></p>
+			<p class="resultColor"></p>
+			<p class="resultExpression"></p>
+		</div>
+		<video id="video" class = "videoPosition" autoplay muted></video> 
+	</div>
+	</div>
+	<!-- カメラ使用を許可しなかった時の画面 -->
+	<div id="third">
+		<div class="border">
+		<div class="title">
+	    emotional distance
+	    </div>
+	    <form>
+			<p class = "content">
+				色と感情のカテゴリー<br>
+				</p>
+				あなたの今の気分を下から選び<br>
+				丸をクリックしてください<br><br>
+			<label><input type="radio" name="color" value="red"><span class="redText">赤</span>：怒り</label><br>
+			<label><input type="radio" name="color" value="pink"><span class="pinkText">ピンク</span>：喜び</label><br>
+			<label><input type="radio" name="color" value="orange"><span class="orangeText">オレンジ</span>：驚き</label><br>
+			<label><input type="radio" name="color" value="green"><span class="greenText">緑</span>：中立</label><br>
+			<label><input type="radio" name="color" value="skyblue"><span class="skyBlueText">水色</span>：悲しみ</label><br>
+			<label><input type="radio" name="color" value="blue"><span class="blueText">青</span>：嫌悪</label><br>
+			<label><input type="radio" name="color" value="purple"><span class="purpleText">紫</span>：恐れ</label>
+	    </form>
+		<a href="#" class="useTwo">決定</a>
+	 </div>
+	</div>
+	<!-- 最後の画面 -->
+	<div id="fourth">
+		<div class="border">
+		<div class="title">
+	    emotional distance
+	    </div>
+	    <p class="content">
+			作品の楽しみ方
+		  </p>
+		  <p class="contentTwo">
+	  
+		  あなただけの<span class="boldText">“エモ”</span>が決まりましたね！<br><br>
+		  それでは、これからあなたは<span class="boldText">“エモ”</span>に変化し、3D空間に作られた部屋に移動します<br>
+		  その部屋には、様々な色（感情）の“エモ”がいくつも存在しています<br><br>
+		  その<span class="boldText">“エモ”</span>達に近づいてみましょう<br>
+		<span class="boldTextL">あなたの色と相手の色が交換されます<br></span>
+		  いろいろな<span class="boldText">“エモ”</span>と色を交換しましょう<br><br>
+	  
+		  色が増えていくたびに“エモ”達は喜び<br>
+		  成長して視野が広がり<br>
+		  部屋の壁が下がっていきます<br>
+		 <span class="boldTextL">壁が下がりきって、外の世界が広がったらゴールです<br><br></span>
+		  では、いってらっしゃい！
+		  </p>
+		<a href="#" class="link">作品の世界に入る</a>
+	 </div>
+	</div>
+　</div> 
+</body>
+</html>

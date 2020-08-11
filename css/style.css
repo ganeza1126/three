@@ -1,0 +1,509 @@
+#wrapper {
+	position: relative;
+	width: 1100px;
+	height: 800px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+body {
+  background: linear-gradient(8deg, rgba(231,236,240,1) 0%, rgba(255,255,255,1) 100%);
+  margin: 0;
+  height: 100vh;
+}
+
+#zero {
+    position: relative;
+    text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: top;
+	flex-direction: column; 
+    font-family: dnp-shuei-mgothic-std, sans-serif;
+    color: #707070;
+	font-weight: lighter;
+    
+}
+
+#first {
+    position: relative;
+    text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: top;
+	flex-direction: column; 
+    font-family: dnp-shuei-mgothic-std, sans-serif;
+    color: #707070;
+	font-weight: lighter;
+    
+}
+
+#second {
+    position: relative;
+    text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: top;
+	flex-direction: column; 
+    font-family: dnp-shuei-mgothic-std, sans-serif;
+    color: #707070;
+	font-weight: lighter;
+    
+}
+
+#third {
+    position: relative;
+    text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: top;
+	flex-direction: column; 
+    font-family: dnp-shuei-mgothic-std, sans-serif;
+    color: #707070;
+	font-weight: lighter;
+	pointer-events: none;
+}
+#third label {
+	position: relative;
+	pointer-events: auto;
+}
+
+#fourth {
+    position: relative;
+    text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: top;
+	flex-direction: column; 
+    font-family: dnp-shuei-mgothic-std, sans-serif;
+    color: #707070;
+	font-weight: lighter;
+}
+
+
+.border {
+	padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+	pointer-events: none;
+	width: 700px;
+}
+.next {
+	position: relative;
+    animation: fadeIn 7s ease 0s 1 normal;
+    display: inline-block;
+    padding: 0.3em 4em;
+    text-decoration: none;
+    color: #707070;
+    border: solid 1.5px #707070;
+    border-radius: 2px;
+    transition: .4s;
+	pointer-events: auto;
+	
+}
+
+.next:hover {
+    background: #707070;
+    color: white;
+}
+
+.not {
+	right: 30px;
+	position: relative;
+    animation: fadeIn 7s ease 0s 1 normal;
+    display: inline-block;
+    padding: 0.3em 4em;
+    text-decoration: none;
+    color: #707070;
+    border: solid 1.5px #707070;
+    border-radius: 2px;
+    transition: .4s;
+	pointer-events: auto;
+}
+
+.not:hover {
+    background: #707070;
+    color: white;
+}
+
+.title {
+	position: relative;
+	font-size: 18px;
+	letter-spacing: 5px;
+	font-weight: 300;
+	pointer-events: none;
+}
+
+.content {
+	position: relative;
+	font-weight: 600;
+	font-size: 32px;
+	pointer-events: none;
+	
+}
+.contentTwo {
+	position: relative;
+	font-weight: 300;
+	font-size: 16px;
+	pointer-events: none;
+}
+
+.contentThree {
+	position: relative;
+	font-weight: 300;
+	font-size: 13px;
+	pointer-events: none;
+}
+
+.description {
+	top: 270px;
+	text-align: right;
+	position: absolute;
+	font-weight: 300;
+	font-size: 16px;
+	transform: translate(-80%, 0);
+	pointer-events: auto;
+}
+
+.descriptionTwo {
+	top: 270px;
+	text-align: left;
+	position: absolute;
+	font-weight: 300;
+	font-size: 16px;
+	left: 78.5%;
+	pointer-events: auto;
+}
+
+.loading {
+	width: 200px;
+	height: 200px;
+	position: absolute;
+	top: 320px;
+	left: 50%;
+	transform: translate(-50%, 0);
+	pointer-events: auto;
+}
+
+
+.start {
+	top: 16px;
+	font-size: 16px;
+	font-weight: 300;
+	position: relative;
+    animation: fadeIn 7s ease 0s 1 normal;
+    display: inline-block;
+    padding: 0.3em 4em;
+    text-decoration: none;
+    color: #707070;
+    border: solid 1.5px #707070;
+    border-radius: 2px;
+    transition: .4s;
+	pointer-events: auto;
+}
+  
+.start:hover {
+    background: #707070;
+    color: white;
+}
+
+.record {
+	top: 480px;
+	font-size: 16px;
+	font-weight: 300;
+	position: relative;
+    animation: fadeIn 7s ease 0s 1 normal;
+    display: inline-block;
+    padding: 0.3em 4em;
+    text-decoration: none;
+    color: #707070;
+    border: solid 1.5px #707070;
+    border-radius: 2px;
+    transition: .4s;
+	pointer-events: auto;
+}
+  
+.record:hover {
+    background: #707070;
+    color: white;
+}
+
+.use {
+	top: 480px;
+	font-size: 16px;
+	font-weight: 300;
+	position: relative;
+    animation: fadeIn 7s ease 0s 1 normal;
+    display: inline-block;
+	flex-direction: row;
+    padding: 0.3em 4em;
+    text-decoration: none;
+    color: #707070;
+    border: solid 1.5px #707070;
+    border-radius: 2px;
+    transition: .4s;
+	pointer-events: auto;
+
+}
+  
+.use:hover {
+    background: #707070;
+    color: white;
+}
+
+.useTwo {
+	top: 50px;
+	font-size: 16px;
+	font-weight: 300;
+	position: relative;
+    animation: fadeIn 7s ease 0s 1 normal;
+    display: inline-block;
+	flex-direction: row;
+    padding: 0.3em 4em;
+    text-decoration: none;
+    color: #707070;
+    border: solid 1.5px #707070;
+    border-radius: 2px;
+    transition: .4s;
+	pointer-events: auto;
+}
+  
+.useTwo:hover {
+    background: #707070;
+    color: white;
+}
+
+.retry {
+	top: 480px;
+	right: 30px;
+	font-size: 16px;
+	font-weight: 300;
+	position: relative;
+    animation: fadeIn 7s ease 0s 1 normal;
+    display: inline-block;
+	flex-direction: row;
+    padding: 0.3em 3em;
+    text-decoration: none;
+    color: #707070;
+    border: solid 1.5px #707070;
+    border-radius: 2px;
+    transition: .4s;
+	pointer-events: auto;
+}
+  
+.retry:hover {
+    background: #707070;
+    color: white;
+}
+
+.link {
+	top: 16px;
+	font-size: 16px;
+	font-weight: 300;
+	position: relative;
+    animation: fadeIn 7s ease 0s 1 normal;
+    display: inline-block;
+    padding: 0.3em 4em;
+    text-decoration: none;
+    color: #707070;
+    border: solid 1.5px #707070;
+    border-radius: 2px;
+    transition: .4s;
+	pointer-events: auto;
+}
+
+.link:hover {
+    background: #707070;
+    color: white;
+}
+
+.resultPercentage {
+	top: 300px;
+	text-align: left;
+	left: 78.5%;
+	position: absolute;
+	font-weight: 600;
+	font-size: 20px;
+	pointer-events: auto;
+	
+}
+
+.resultColor {
+	top: 370px;
+	text-align: left;
+	left: 78.5%;
+	position: absolute;
+	font-weight: 600;
+	font-size: 20px;
+	pointer-events: auto;
+	
+}
+
+.resultExpression {
+	top: 335px;
+	text-align: left;
+	left: 78.5%;
+	position: absolute;
+	font-weight: 600;
+	font-size: 20px;
+	pointer-events: auto;
+	
+}
+
+.videoPosition {
+	position: absolute;
+	top: 200px;
+	left: 50%;
+	width: 600px;
+	height: 440px;
+	transform: translate(-50%, 0);
+	
+}
+
+.emoOne {
+	position: absolute;
+	top: 80px;
+	left: 62%;
+	width: 100px;
+	height: 100px;
+}
+
+.emoTwo {
+	position: absolute;
+	top: 480px;
+	left: 76%;
+	width: 70px;
+	height: 70px;
+}
+
+.emoThree {
+	position: absolute;
+	top: 190px;
+	left: 15%;
+	width: 110px;
+	height: 110px;
+}
+
+.emoFour {
+	position: absolute;
+	top: 290px;
+	left: 74%;
+	width: 76px;
+	height: 76px;
+}
+
+.emoFive {
+	position: absolute;
+	top: 315px;
+	left: 69%;
+	width: 100px;
+	height: 100px;
+}
+
+.emoSix {
+	position: absolute;
+	top: 325px;
+	left: 30%;
+	width: 50px;
+	height: 50px;
+}
+
+.emoSeven {
+	position: absolute;
+	top: 580px;
+	left: 22%;
+	width: 110px;
+	height: 110px;
+}
+
+.yourEmo {
+	position: absolute;
+	top: 435px;
+	left: 78%;
+	width: 140px;
+	height: 140px;
+}
+
+.yourEmoTwo {
+	position: absolute;
+	top: 320px;
+	left: 60%;
+	width: 140px;
+	height: 140px;
+}
+
+.boldText {
+	font-weight: 600;
+}
+
+.boldTextL {
+	font-weight: 600;
+	font-size: 18px;
+}
+
+.usePC {
+	position: absolute;
+	top: 51px;
+	left: 28.6%;
+	width: 300px;
+	height: 30px;
+	font-size: 12px;
+}
+
+.redText {
+	color: #e7351d;
+}
+
+.blueText {
+	color: #6fb8ee;
+}
+
+.greenText {
+	color: #74d19c;
+}
+
+.pinkText {
+	color: #fe93d1;
+}
+
+.purpleText {
+	color: #be9eff;
+}
+
+.orangeText {
+	color: #ffaf1b;
+}
+
+.skyBlueText {
+	color: #96c5eb;
+}
+
+.link {
+	pointer-events: auto;
+}
+
+#bg span {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  position: absolute;
+  pointer-events: none;
+  background: #55b9f3;
+  transform: translate(-50%, -50%);
+  animation: blow 4s linear infinite;
+}
+
+
+@keyframes blow {
+  0% {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -1000%);
+    opacity: 0;
+    filter: hue-rotate(720deg);
+  }
+}

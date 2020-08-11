@@ -1,0 +1,89 @@
+#container {
+    /*display: none; */ /* 初期は非表示にする */
+    position: absolute; 
+	margin: 0;
+    height: 100vh;
+    background-color: black;
+    opacity: 0.15;
+	
+  }
+  #popup {
+    /*display: none; */ /* 初期は非表示にする */
+	position: absolute;
+	background-color: #000000;
+    color: white;
+    text-align: center;
+    font-family: dnp-shuei-mgothic-std, sans-serif;
+    font-weight: lighter;
+    border-radius: 5px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    top: 50px;
+    left: 50%;
+    width: 600px;
+    transform: translate(-50%, 0);
+
+  }
+  #popup .howto {
+  	width: 100%;
+  	height: auto;
+  }
+#show {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	font-family: dnp-shuei-mgothic-std, sans-serif;
+	font-size: 16px;
+	font-weight: 300;
+    animation: fadeIn 7s ease 0s 1 normal;
+    display: inline-block;
+    padding: 0.3em 4em;
+    text-decoration: none;
+    background: transparent;
+    color: white;
+    border: solid 1.5px white;
+    border-radius: 2px;
+    transition: .4s;
+}
+
+#show:hover {
+    background: white;
+    color: black;
+}
+
+.helpTitle {
+  font-size: 28px;
+  font-weight: 600;
+}
+.helpTitleTwo {
+    font-size: 28px;
+    font-weight: 600;
+    color: rgb(253, 186, 0);
+}
+
+.helpContentTwo {
+	font-size: 18px;
+	font-weight: 300;
+}
+
+#close {
+	font-family: dnp-shuei-mgothic-std, sans-serif;
+	font-size: 16px;
+	font-weight: 300;
+    animation: fadeIn 7s ease 0s 1 normal;
+    display: inline-block;
+    padding: 0.3em 4em;
+    text-decoration: none;
+    background: transparent;
+    color: white;
+    border: solid 1.5px white;
+    border-radius: 2px;
+    transition: .4s;
+}
+
+#close:hover {
+    background: white;
+    color: black;
+}

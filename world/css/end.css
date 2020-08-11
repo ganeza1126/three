@@ -1,0 +1,68 @@
+#endContainer {
+  position: absolute; 
+	margin: 0;
+    height: 100vh;
+    background: linear-gradient(8deg, rgba(231,236,240,1) 0%, rgba(255,255,255,1) 100%);
+    opacity: 0.15;
+  }
+  #endPopup {
+	display: none;
+	position: absolute;
+	background: linear-gradient(8deg, rgba(231,236,240,0.7) 0%, rgba(255,255,255,0.7) 100%);
+    color: #707070;
+    text-align: center;
+    font-family: dnp-shuei-mgothic-std, sans-serif;
+    font-weight: lighter;
+    border-radius: 5px;
+    padding: 30px;
+    top: 50%;
+    left: 50%;
+    width: 620px;
+    transform: translate(-50%, -50%);
+  }
+  #endPopup .howto {
+  	width: 100%;
+  	height: auto;
+  }
+  #endPopup .title {
+  	font-size: 32px;
+  	letter-spacing: 5px;
+  	font-weight: 600;
+  }
+
+.snapCamera {
+	position: relative;
+    animation: fadeIn 7s ease 0s 1 normal;
+    display: inline-block;
+    padding: 0.3em 4em;
+    text-decoration: none;
+    color: #707070;
+    border: solid 1.5px #707070;
+    border-radius: 2px;
+    transition: .4s;
+	pointer-events: auto;
+}
+  
+.snapCamera:hover {
+    background: #707070;
+    color: white;
+	}
+
+.here {
+	position: relative;
+    animation: fadeIn 7s ease 0s 1 normal;
+    display: inline-block;
+    padding: 0em 0.5em;
+    text-decoration: none;
+    color: #707070;
+    border: solid 1.5px #707070;
+    border-radius: 2px;
+    transition: .4s;
+	pointer-events: auto;
+	height: 28px
+}
+  
+.here:hover {
+    background: #707070;
+    color: white;
+	}
